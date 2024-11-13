@@ -1,21 +1,16 @@
-from sentence_transformers import SentenceTransformer
-
 import Encoder
 import DataLoader
 
-
-# For possible future use with cosine similarity of queries:
-# model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-
 # Create data structures
-me_top_data = DataLoader.load_top_data("Data/ME-TOP")
-us_top_data = DataLoader.load_top_data("Data/US-TOP")
-ww_top_data = DataLoader.load_top_data("Data/WW-TOP")
+me_12mo = DataLoader.load_top_data("Data/ME-12mo")
+us_12mo = DataLoader.load_top_data("Data/US-12mo")
+me_5yr = DataLoader.load_top_data("Data/ME-5yr")
+us_5yr = DataLoader.load_top_data("Data/US-5yr")
 
 # Example usage to view data:
-# print(f"Top US job queries: {us_top_data["JOBS"]}")
+# print(f"Top US job queries over past 12 months: {us_12mo["JOBS"]}")
 
 # Example usage to extract unique terms between two regions from one category
 cat = "HEALTH"
-print(f"Terms in Maine, not US: {Encoder.get_unique_terms(me_top_data[cat], us_top_data[cat])}")
-print(f"Terms in US, not Maine: {Encoder.get_unique_terms(us_top_data[cat], me_top_data[cat])}")
+print(f"Terms in Maine, not US: {Encoder.get_unique_terms(me_5yr[cat], us_5yr[cat])}")
+print(f"Terms in US, not Maine: {Encoder.get_unique_terms(us_5yr[cat], me_5yr[cat])}")
