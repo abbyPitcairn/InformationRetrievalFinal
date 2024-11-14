@@ -16,8 +16,8 @@ for region in regions:
 
 # Print all dice coefficients and cosine similarities for
 # all topics and all regions for the input time period
-QuerySetComparison.query_set_comparison("12mo")
-QuerySetComparison.query_set_comparison("5yr")
+QuerySetComparison.query_set_comparison("12mo", topics)
+QuerySetComparison.query_set_comparison("5yr", topics)
 
 
 
