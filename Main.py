@@ -1,23 +1,25 @@
 import QuerySetComparison
+import StringMatcher
 
 # Print data analysis from QuerySetComparison.
 # Authors: Abigail Pitcairn and Behrooz Mansouri
 # Version: 11.14.2024
 
-# Set the time period for printed results
-period = "12mo"  # or "5yr"
+topics = ["ART", "BEAUTY", "BOOKS", "BUS", "COMP", "FOOD", "HEALTH", "HOBBIES", "JOBS",
+          "NEWS", "ONLINE", "PEOPLE", "SHOP", "SPORT", "TRAVEL"]
 
-# Dice coefficient and cosine similarity for Maine and US
-print(f"Maine vs. US {period}:")
-QuerySetComparison.compare_dice_coefficients(period,"ME","US")
-QuerySetComparison.compare_cosines(period, "ME", "US")
+regions = ["US","TX","NY"]
 
-# Dice coefficient and cosine similarity for Maine and Texas
-print(f"Maine vs. Texas {period}:")
-QuerySetComparison.compare_dice_coefficients(period,"ME","TX")
-QuerySetComparison.compare_cosines(period, "ME", "TX")
+for region in regions:
+    StringMatcher.find_unique_queries_all_topics("12mo", topics,"ME",region)
+    StringMatcher.find_unique_queries_all_topics("5yo", topics, "ME", region)
 
-# Dice coefficient and cosine similarity for Maine and New York
-print(f"Maine vs. New York {period}:")
-QuerySetComparison.compare_dice_coefficients(period,"ME","NY")
-QuerySetComparison.compare_cosines(period, "ME", "NY")
+# Print all dice coefficients and cosine similarities for
+# all topics and all regions for the input time period
+QuerySetComparison.query_set_comparison("12mo")
+QuerySetComparison.query_set_comparison("5yr")
+
+
+
+
+
