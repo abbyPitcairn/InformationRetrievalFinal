@@ -54,7 +54,7 @@ def get_avg_max_cosine(list1, list2):
     return sum / len(similarities)
 
 
-def compare_dice_coefficients(time, topics, region1, region2):
+def compare_dice_coefficients_by_region(time, topics, region1, region2):
     for topic in topics:
         set1 = f"Data/{time}/{region1}/{region1}-{topic}.csv"
         queries1 = read_trend_file_to_set(set1)
@@ -62,7 +62,7 @@ def compare_dice_coefficients(time, topics, region1, region2):
         queries2 = read_trend_file_to_set(set2)
         print(topic + f"\t\tDice: {dice_coefficient(queries1, queries2)}")
 
-def compare_cosines(time, topics, region1, region2):
+def compare_cosines_by_region(time, topics, region1, region2):
     for topic in topics:
         set1 = f"Data/{time}/{region1}/{region1}-{topic}.csv"
         queries1 = read_trend_file_to_set(set1)
@@ -71,21 +71,43 @@ def compare_cosines(time, topics, region1, region2):
         print(topic + f"\t\tAvg. Cosine: {get_avg_max_cosine(queries1, queries2)}")
 
 
-def query_set_comparison(period, topics):
+def compare_dice_coefficients_by_time(time1, time2, topics, region):
+    for topic in topics:
+        set1 = f"Data/{time1}/{region}/{region}-{topic}.csv"
+        queries1 = read_trend_file_to_set(set1)
+        set2 = f"Data/{time2}/{region}/{region}-{topic}.csv"
+        queries2 = read_trend_file_to_set(set2)
+        print(topic + f"\t\tDice: {dice_coefficient(queries1, queries2)}")
+
+def compare_cosines_by_time(time1, time2, topics, region):
+    for topic in topics:
+        set1 = f"Data/{time1}/{region}/{region}-{topic}.csv"
+        queries1 = read_trend_file_to_set(set1)
+        set2 = f"Data/{time2}/{region}/{region}-{topic}.csv"
+        queries2 = read_trend_file_to_set(set2)
+        print(topic + f"\t\tAvg. Cosine: {get_avg_max_cosine(queries1, queries2)}")
+
+
+def query_set_comparison_by_region(period, topics):
     """
     Print dice coefficients and cosine similarities for all three region comparisons
     """
     # Dice coefficient and cosine similarity for Maine and US
     print(f"Maine vs. US {period}:")
-    compare_dice_coefficients(period, topics, "ME", "US")
-    compare_cosines(period, topics, "ME", "US")
+    compare_dice_coefficients_by_region(period, topics, "ME", "US")
+    compare_cosines_by_region(period, topics, "ME", "US")
 
     # Dice coefficient and cosine similarity for Maine and Texas
     print(f"Maine vs. Texas {period}:")
-    compare_dice_coefficients(period,topics,  "ME", "TX")
-    compare_cosines(period,topics,  "ME", "TX")
+    compare_dice_coefficients_by_region(period,topics,  "ME", "TX")
+    compare_cosines_by_region(period,topics,  "ME", "TX")
 
     # Dice coefficient and cosine similarity for Maine and New York
     print(f"Maine vs. New York {period}:")
-    compare_dice_coefficients(period, topics, "ME", "NY")
-    compare_cosines(period, topics, "ME", "NY")
+    compare_dice_coefficients_by_region(period, topics, "ME", "NY")
+    compare_cosines_by_region(period, topics, "ME", "NY")
+
+
+def query_set_comparison_by_time(period1, period2, topics, region="ME"):
+    compare_dice_coefficients_by_time(period1, period2, topics, region)
+    compare_cosines_by_time(period1, period2, topics, region)
