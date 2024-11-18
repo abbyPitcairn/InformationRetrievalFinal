@@ -3,7 +3,7 @@ import QuerySetComparison
 # Use string functions to find unique queries between two regions
 # and average query lengths by category by region.
 # Authors: Abigail Pitcairn and Behrooz Mansouri
-# Version: 11.17.2024
+# Version: 11.18.2024
 
 def find_matching_queries_by_region(time, topics, region1, region2):
     for topic in topics:
@@ -19,6 +19,14 @@ def find_matching_queries_by_region(time, topics, region1, region2):
 
 
 def find_unique_queries_by_region(time, topics, region1, region2):
+    """
+    Find unique queries that are in region1 but not region2
+    :param time: time period for queries
+    :param topics: list of topics to search across
+    :param region1: queries that are in region1, but not in region2
+    :param region2: queries that are not in region2, but are in region1
+    :return:
+    """
     for topic in topics:
         print(f"For {topic}:")
         set1 = f"Data/{time}/{region1}/{region1}-{topic}.csv"
@@ -32,6 +40,7 @@ def find_unique_queries_by_region(time, topics, region1, region2):
 
 
 def find_matching_queries_by_time(time1, time2, topics, region):
+    print(f"Queries for {region} in both {time1} and {time2}:")
     for topic in topics:
         print(f"For {topic}:")
         set1 = f"Data/{time1}/{region}/{region}-{topic}.csv"
@@ -45,6 +54,7 @@ def find_matching_queries_by_time(time1, time2, topics, region):
 
 
 def find_unique_queries_by_time(time1, time2, topics, region):
+    print(f"Queries for {region} in {time1} that are not in {time2}:")
     for topic in topics:
         print(f"For {topic}:")
         set1 = f"Data/{time1}/{region}/{region}-{topic}.csv"
