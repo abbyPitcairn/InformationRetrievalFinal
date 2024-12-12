@@ -51,12 +51,13 @@ def dice_coefficient(list1, list2):
 
 
 def get_avg_max_cosine(time, topics, region1, region2):
+    model = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
+    total_sum = 0.0
     for topic in topics:
         set1 = f"Data/{time}/{region1}/{region1}-{topic}.csv"
         queries1 = read_trend_file_to_list(set1)
         set2 = f"Data/{time}/{region2}/{region2}-{topic}.csv"
         queries2 = read_trend_file_to_list(set2)
-        model = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
         embeddings1 = model.encode(queries1, convert_to_tensor=True)
         embeddings2 = model.encode(queries2, convert_to_tensor=True)
         similarities = util.semantic_search(embeddings1, embeddings2)
@@ -64,16 +65,21 @@ def get_avg_max_cosine(time, topics, region1, region2):
         for item in similarities:
             max_score = item[0]['score']
             sum += max_score
-        return sum / len(similarities)
+        total_sum += sum / len(similarities)
+    print(f"Cos. sim. for {region1} vs {region2} : {total_sum / len(topics)}")
 
 
 def compare_dice_coefficients_by_region(time, topics, region1, region2):
+    total_sum = 0.0
     for topic in topics:
         set1 = f"Data/{time}/{region1}/{region1}-{topic}.csv"
         queries1 = read_trend_file_to_set(set1)
         set2 = f"Data/{time}/{region2}/{region2}-{topic}.csv"
         queries2 = read_trend_file_to_set(set2)
-        print(topic + f"\t\tDice: {dice_coefficient(queries1, queries2)}")
+        dice_co = dice_coefficient(queries1, queries2)
+        total_sum += dice_co
+        #print(topic + f"\t\tDice: {dice_coefficient(queries1, queries2)}")
+    print(f"Dice Co. for {region1} vs {region2} : {total_sum/len(topics)}")
 
 def compare_cosines_by_region(time, topics, region1, region2):
     for topic in topics:

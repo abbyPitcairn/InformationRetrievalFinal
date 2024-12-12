@@ -89,17 +89,77 @@ def get_avg_query_length(time, topics, region):
     total_average = 0
     for topic in topics:
         queries_path = f"Data/{time}/{region}/{region}-{topic}.csv"
-        queries = QuerySetComparison.read_trend_file_to_set(queries_path)
+        try:
+            queries = QuerySetComparison.read_trend_file_to_set(queries_path)
+        except FileNotFoundError:
+            print(f"{queries_path} not found. Skipping...")
+            continue
+        except Exception as e:
+            print(f"An error occurred while reading {queries_path}: {e}")
+            continue
         total_length = 0
         num_of_queries = 0
         for query in queries:
             total_length += len(query)
             num_of_queries += 1
         average_length = total_length / num_of_queries
-        print(f"{topic}: {average_length}")
+        #print(f"{topic}: {average_length}")
         total_average += average_length
-    print(f"Average length for {region}, {time} for all topics: {total_average/len(topics)}")
+    print(f"Average length for {region}, {time} for all topics: {total_average/len(topics)} characters.")
 
+
+def get_avg_query_length_words(time, topics, region):
+    total_average = 0
+    for topic in topics:
+        queries_path = f"Data/{time}/{region}/{region}-{topic}.csv"
+        try:
+            queries = QuerySetComparison.read_trend_file_to_set(queries_path)
+        except FileNotFoundError:
+            print(f"{queries_path} not found. Skipping...")
+            continue
+        except Exception as e:
+            print(f"An error occurred while reading {queries_path}: {e}")
+            continue
+        total_length = 0
+        num_of_queries = 0
+        for query in queries:
+            total_length += query.count(" ")
+            total_length += 1
+            num_of_queries += 1
+        average_length = total_length / num_of_queries
+        #print(f"{topic}: {average_length}")
+        total_average += average_length
+    print(f"Average length for {region}, {time} for all topics: {total_average/len(topics)} words.")
+
+
+def get_avg_query_length_manual(topics):
+    avg_length = 0
+    for query in topics:
+        avg_length += len(query)
+    print(f"Average query length: {avg_length/len(topics)}")
+
+
+def get_longest_query_text(region, time, topics):
+    longest_q_by_topic = {}
+    for topic in topics:
+        queries_path = f"Data/{time}/{region}/{region}-{topic}.csv"
+        try:
+            queries = QuerySetComparison.read_trend_file_to_set(queries_path)
+        except FileNotFoundError:
+            print(f"{queries_path} not found. Skipping...")
+            continue
+        max_length_query = queries[0]
+        for query in queries:
+            if len(query) > len(max_length_query):
+                max_length_query = query
+        #print(f"{max_length_query} is {len(max_length_query)} characters.")
+        longest_q_by_topic[topic] = max_length_query
+    max_length_query = ""
+    for query in longest_q_by_topic.values():
+        if len(query) > len(max_length_query):
+            max_length_query = query
+    topic_w_longest_q = next((k for k, v in longest_q_by_topic.items() if v == max_length_query), None)
+    print(f"Longest query is {max_length_query} from {topic_w_longest_q} at {len(max_length_query)} chars.")
 
 
 
