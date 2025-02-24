@@ -1,7 +1,9 @@
-What do Mainers Search For? An Analysis of Google Trends
+# 📊 What Do Mainers Search For?  
+**An Analysis of Google Trends**  
 
-Final project for COS 470: Intro to IR
+### 🔍 Final Project for COS 470: Intro to Information Retrieval  
 
-Authors: Abigail Pitcairn and Behrooz Mansouri
+**Authors:** Abigail Pitcairn & Behrooz Mansouri  
 
-This project utilizes Google Trends data to analyze differences in searches between regions of the US. 
+## 📖 Project Overview  
+This project explores **Google Trends data** to analyze regional differences in search behavior across the United States. By comparing search trends in Maine and other regions, we aim to uncover insights into how geographic location influences online interests.  
